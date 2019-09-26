@@ -22,7 +22,7 @@
 1. You must have a key to get news data via data_loder.py.\
 (If you need token_key, please contact my email. Actually, I recommend you to get news by news_crawler.py.)
 2. You need to generate a ranking_token, standard_tdm and standard_tf_idf in news_data directory.\
- (If you think it is unnecessary, you can use the existing ranking token, TDM and TF-IDF. Ranking tokens are created with ranking_token_bulild.py. TDM and TF-IDF are created with tf_idf_build.py.)
+ (If you think it is unnecessary, you can use the existing ranking token, TDM and TF-IDF. Ranking tokens, TDM and TF-IDF are created with functions in data_setup.py.)
 3. You can see the category of the news by activating the classifier function of the news classification class in news_classification.py.
 4. 
 <pre><code>from news_classification import News_Classificaion
