@@ -11,12 +11,11 @@ class Crawler():
 
     # '많이 본 뉴스' 네이버 뉴스 크롤링 함수
     def popular_naver_news_crawler(self, url, number):
-        '''
+        """
         :param url: 시작 주소
         :param number: 크롤링 할 기사의 갯수
         :return: 크롤링 한 기사의 본문 리스트
-        '''
-
+        """
         driver = self.driver
         date = url.split('date=')[1]
         count = 0
