@@ -1,5 +1,5 @@
 # news_classification
-* creator: iss760
+* creator : Seohyeon Park (iss760) 
 * email : gane774@naver.com
 
 ## explanation
