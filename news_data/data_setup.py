@@ -46,7 +46,7 @@ def create_standard_tf_idf(rank_count=100):
               ensure_ascii=False, indent='\t')
 
     # TF-IDF 생성
-    tf_idf_matrix = dtm_to_tf_idf(dtm_matrix, standard_dtm=True)
+    tf_idf_matrix = dtm_to_tf_idf(dtm_matrix,)
 
     # TF-IDF 저장
     save_data2 = OrderedDict()
