@@ -1,7 +1,8 @@
 # news_classification
+* creator: iss760
+* email : gane774@naver.com
 
 ## explanation
-
 * news category classification model through natural language processing in TF-IDF method.
 * only Korean news is supported.
 * news data are based on Naver news.
