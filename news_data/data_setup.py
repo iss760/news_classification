@@ -16,7 +16,7 @@ def create_standard_tf_idf(rank_count=100):
     # 데이터 로드
     load_file = []
     for category in category_list:
-        with open('./news_data/ranking_token_' + str(category) + '.json', 'r', encoding='UTF-8') as f:
+        with open('../news_data/ranking_token_' + str(category) + '.json', 'r', encoding='UTF-8') as f:
             load_file.append(json.load(f))
 
     # 토큰 추출, 토큰 리스트 생성
@@ -36,13 +36,17 @@ def create_standard_tf_idf(rank_count=100):
         for j in range(category_count):
             for k in range(rank_count):
                 if token == load_file[j]['token'][k][0]:
-                    dtm_matrix[j][i] = load_file[j]['token'][k][1]
+                    value = load_file[j]['token'][k][1] / 100
+                    if value < 1 and value > 0:
+                        value = 1
+                    value = int(value)
+                    dtm_matrix[j][i] = value
 
     # DTM 저장
     save_data = OrderedDict()
     save_data['token'] = unique_token_list
     save_data['dtm'] = dtm_matrix
-    json.dump(save_data, open('./news_data/standard_dtm.json', 'w', encoding='utf-8'),
+    json.dump(save_data, open('../news_data/standard_dtm.json', 'w', encoding='utf-8'),
               ensure_ascii=False, indent='\t')
 
     # TF-IDF 생성
@@ -52,7 +56,7 @@ def create_standard_tf_idf(rank_count=100):
     save_data2 = OrderedDict()
     save_data2['token'] = unique_token_list
     save_data2['tf_idf'] = tf_idf_matrix
-    json.dump(save_data2, open('./news_data/standard_tf_idf.json', 'w', encoding='utf-8'),
+    json.dump(save_data2, open('../news_data/standard_tf_idf.json', 'w', encoding='utf-8'),
               ensure_ascii=False, indent='\t')
 
 # DTM 을 TF-IDF 로 변환 하는 함수
@@ -63,10 +67,15 @@ def dtm_to_tf_idf(dtm_matrix):
     """
     col_size = len(dtm_matrix[0])
     row_size = len(dtm_matrix)
+
     tf_idf_matrix = [[0 for _ in range(col_size)] for _ in range(row_size)]
     for i in range(row_size):
         for j in range(col_size):
-            tf_idf_matrix[i][j] = math.log(row_size / (dtm_matrix[i][j] + 1)) * dtm_matrix[i][j]
+            count = 0
+            for k in range(row_size):
+                if (dtm_matrix[i][j] > 0) and (dtm_matrix[k][j] > 0):
+                    count = count + 1
+            tf_idf_matrix[i][j] = math.log(row_size / (count + 1)) * dtm_matrix[i][j]
 
     return tf_idf_matrix
 
@@ -95,3 +104,5 @@ def ranking_token_build(category, doc_ls):
 
     json.dump(save_data, open('./ranking_token_' + str(category) + 'json', 'w', encoding='utf-8'),
               ensure_ascii=False, indent='\t')
+
+create_standard_tf_idf()

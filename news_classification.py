@@ -49,21 +49,6 @@ class News_Classificaion():
         """
         return dot(doc1, doc2) / (norm(doc1) * norm(doc2))
 
-    # DTM 을 TF-IDF 로 변환 하는 함수
-    def dtm_to_tf_idf(self, dtm_matrix):
-        """
-        :param dtm_matrix: (list) DTM 리스트
-        :return: (list) TF-IDF로 변환 된 리스트
-        """
-        col_size = len(dtm_matrix)
-        row_size = 1
-
-        tf_idf_matrix = [0 for _ in range(col_size)]
-        for i in range(col_size):
-            tf_idf_matrix[i] = math.log(row_size/(dtm_matrix[i] + 1)) * dtm_matrix[i]
-
-        return tf_idf_matrix
-
     # 하나의 문서를 BOW(Bag of Word) 형태의 리스트로 변한 하는 함수
     def to_bow(self, token_list, rank_count=100):
         """
@@ -87,17 +72,12 @@ class News_Classificaion():
 
         return bow_list
 
-    # 토크나이징 된 문서를 TF-IDF 로 변환
-    def to_tf_idf(self, token_list):
-        bow = self.to_bow(token_list)
-        return self.dtm_to_tf_idf(bow)
-
     def classifier(self, doc):
         krt = KrTokenizer()
 
         # 문서 토크나이징
         tokenized_doc = krt.extract_morphs_for_single_doc(doc)
-        data = self.to_tf_idf(tokenized_doc)
+        data = self.to_bow(tokenized_doc)
 
         with open('./news_data/standard_tf_idf.json', 'r', encoding='UTF-8') as f:
             load_file = json.load(f)
